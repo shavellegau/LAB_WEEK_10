@@ -9,6 +9,7 @@ import com.example.lab_week_10.viewmodels.TotalViewModel
 
 class MainActivity : AppCompatActivity() {
 
+    // ViewModel dengan lazy
     private val viewModel by lazy {
         ViewModelProvider(this)[TotalViewModel::class.java]
     }
@@ -16,22 +17,25 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         prepareViewModel()
     }
 
+    // Update tampilan text_total
     private fun updateText(total: Int) {
-        findViewById<TextView>(R.id.text_total).text =
-            getString(R.string.text_total, total)
+        val textTotal = findViewById<TextView>(R.id.text_total)
+        textTotal.text = getString(R.string.text_total, total)
     }
 
+    // Menghubungkan ViewModel dengan UI (versi modul)
     private fun prepareViewModel() {
 
         // Observe LiveData (versi modul)
-        viewModel.total.observe(this, {
-            updateText(it)
-        })
+        viewModel.total.observe(this) { totalValue ->
+            updateText(totalValue)
+        }
 
-        // Button
+        // Button increment
         findViewById<Button>(R.id.button_increment).setOnClickListener {
             viewModel.incrementTotal()
         }
