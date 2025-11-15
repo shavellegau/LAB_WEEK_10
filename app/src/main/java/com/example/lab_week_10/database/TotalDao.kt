@@ -26,4 +26,5 @@ interface TotalDao {
     // Custom Query to get the total by ID (returns list)
     @Query("SELECT * FROM total WHERE id = :id")
     fun getTotal(id: Long): List<Total>
+
 }

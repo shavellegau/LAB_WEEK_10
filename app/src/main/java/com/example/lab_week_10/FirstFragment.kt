@@ -36,13 +36,23 @@ class FirstFragment : Fragment() {
     }
 
     private fun prepareViewModel(view: View) {
-        // Observe LiveData
-        viewModel.total.observe(viewLifecycleOwner, {
+        viewModel.total.observe(viewLifecycleOwner) {
             updateText(it, view)
-        })
+        }
+
+        // Observe date
+        viewModel.date.observe(viewLifecycleOwner) {
+            view.findViewById<TextView>(R.id.text_date).text = "Updated: $it"
+        }
     }
 
     companion object {
         fun newInstance() = FirstFragment()
     }
+    override fun onStart() {
+        super.onStart()
+        viewModel.updateDate()
+    }
+
+
 }
